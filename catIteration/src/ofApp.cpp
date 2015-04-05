@@ -9,8 +9,8 @@ void ofApp::setup(){
     ofSetCircleResolution(32);
     ofSetFrameRate(12);
     
-    catDistance = 800;
-    catScale = 1;
+    catDistance = 200;
+    catScale = 0.3;
 }
 
 //--------------------------------------------------------------
@@ -105,7 +105,7 @@ void ofApp::drawCat(int x, int y, float scale){
         xMultiplier *= -1;
     }
     
-    // nose outline
+    // nose(outline)
     ofSetColor(ofColor::black);
     ofCircle(catCenter.x, catCenter.y+0.4*catUnit, 0.4*catUnit);
     square(catCenter.x, catCenter.y, 0.8*catUnit);
