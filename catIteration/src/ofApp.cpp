@@ -41,24 +41,30 @@ void ofApp::drawCat(int x, int y, float scale){
     ofPoint catCenter;
     catCenter.set(x, y);
     
-    // this replaces hard-coded numbers to make cat scalable
+    // this variable is used to replace hard-coded numbers and make cat scalable. division by 8 has no special meaning, it just makes the math easier
     int catUnit = width/8*scale;
     
     // this is used for inverting x position, so as to make a horizontally symmetrical drawing
-    int xMultiplier = 1;
+    int xDirection = 1;
     
     // ears: half-circles via iteration, symmetrical
     for (int c = 0; c < 2; c++) {
         for (int i = 0; i < 2*catUnit; i++) {
             for (int j = 0; j < catUnit; j++) {
+                
+                // compares distance(diagonal and horizontal) between current iteration point and center of ear
                 ofPoint current;
                 ofPoint earCenter;
-                current.set(catCenter.x+(catUnit+j)*xMultiplier,catCenter.y-3*catUnit+i);
-                earCenter.set(catCenter.x+2*catUnit*xMultiplier, catCenter.y-2*catUnit);
-                float earMeasure = (current - earCenter).length();
-                float earMeasureX = abs(current.x - earCenter.x);
-                if (earMeasure <= catUnit) {
-                    if (earMeasure > 0.75*catUnit || earMeasureX < abs(0.25*catUnit*xMultiplier)) {
+                current.set(catCenter.x+(catUnit+j)*xDirection,catCenter.y-3*catUnit+i);
+                earCenter.set(catCenter.x+2*catUnit*xDirection, catCenter.y-2*catUnit);
+                float earDistance = (current - earCenter).length();
+                float earDistanceX = abs(current.x - earCenter.x);
+                
+                // draw different colors for specific parts of ear
+                bool withinEarRange = earDistance <= catUnit;
+                bool isEarOutline = earDistance > 0.75*catUnit || earDistanceX < abs(0.25*catUnit*xDirection);
+                if (withinEarRange == TRUE) {
+                    if (isEarOutline == TRUE) {
                         ofSetColor(ofColor::black);
                         ofRect(current, 1, 1);
                     }
@@ -69,7 +75,7 @@ void ofApp::drawCat(int x, int y, float scale){
                 }
             }
         }
-        xMultiplier *= -1;
+        xDirection *= -1;
     }
     
     // head
@@ -82,27 +88,27 @@ void ofApp::drawCat(int x, int y, float scale){
     for (int i = 0; i < 2; i++) {
         ofSetColor(ofColor::black);
         // hair
-        ofCircle(catCenter.x + 0.3*catUnit*xMultiplier, catCenter.y-2*catUnit, 0.35*catUnit);
+        ofCircle(catCenter.x + 0.3*catUnit*xDirection, catCenter.y-2*catUnit, 0.35*catUnit);
         // eyes
-        ofCircle(catCenter.x-catUnit*xMultiplier,catCenter.y-catUnit/2,catUnit*0.55);
+        ofCircle(catCenter.x-catUnit*xDirection,catCenter.y-catUnit/2,catUnit*0.55);
         ofSetColor(ofColor::white);
-        ofCircle(catCenter.x-catUnit*xMultiplier,catCenter.y-catUnit/2,catUnit*0.45);
+        ofCircle(catCenter.x-catUnit*xDirection,catCenter.y-catUnit/2,catUnit*0.45);
         ofSetColor(ofColor::black);
-        ofCircle(catCenter.x-catUnit*xMultiplier,catCenter.y-catUnit/2,catUnit*0.35);
+        ofCircle(catCenter.x-catUnit*xDirection,catCenter.y-catUnit/2,catUnit*0.35);
         // mouth outline
-        ofCircle(catCenter.x + 0.4*catUnit*xMultiplier, catCenter.y+0.8*catUnit, catUnit/2);
+        ofCircle(catCenter.x + 0.4*catUnit*xDirection, catCenter.y+0.8*catUnit, catUnit/2);
         // cheeks
         ofSetColor(ofRandom(200,250),ofRandom(200,250),ofRandom(200,250));
-        ofCircle(catCenter.x + 0.6*catUnit*xMultiplier, catCenter.y+catUnit*2/3, 0.6*catUnit);
+        ofCircle(catCenter.x + 0.6*catUnit*xDirection, catCenter.y+catUnit*2/3, 0.6*catUnit);
         // whiskers
         float whisker = 0;
         ofSetColor(ofColor::black);
         ofSetLineWidth(catUnit/10);
         for (int j = 0; j < 3; j++) {
-            ofLine(catCenter.x+catUnit*xMultiplier, catCenter.y+0.5*catUnit, catCenter.x+3*catUnit*xMultiplier, catCenter.y + whisker*catUnit);
+            ofLine(catCenter.x+catUnit*xDirection, catCenter.y+0.5*catUnit, catCenter.x+3*catUnit*xDirection, catCenter.y + whisker*catUnit);
             whisker += 0.5;
         }
-        xMultiplier *= -1;
+        xDirection *= -1;
     }
     
     // nose(outline)
