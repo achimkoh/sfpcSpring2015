@@ -6,8 +6,6 @@ void ofApp::setup(){
     stream.setup(this, 2, 0, 44100, 512, 4);
     soundBuffer = new float[512];
     
-    for (int i = 0; i < 512; i++) soundBuffer[i] = 0;
-    
     ofSetFrameRate(60);
     ofSetVerticalSync(true); // what does this do?
     
@@ -19,7 +17,7 @@ void ofApp::setup(){
 
     keyDown = FALSE; // used to stop Y rotation when rotating on X axis, and restoring it
     tempY = 0;
-
+    
     frameCount = 0; // i could use ofGetFrameNum() but i want it to stop when not rotating on Y axis
 
     click.loadSound("4d.wav");
@@ -30,11 +28,10 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::audioOut( float * output, int bufferSize, int nChannels ) {
 
-        for (int i = 0; i < bufferSize/(oscillators.size()+1); i++) {
+        for (int i = 0; i < bufferSize; i++) {
         
-            float sample;
-            
-            soundBuffer[i] = sinWave.getSample();
+//            float sample;
+            soundBuffer[i] = sinWave.getSample(); // current line
 
             for (int j = 0; j < oscillators.size(); j++) {
 //                soundBuffer[i+j+1] = oscillators[j].getSample();
@@ -43,8 +40,8 @@ void ofApp::audioOut( float * output, int bufferSize, int nChannels ) {
         }
 
         for (int i = 0; i < bufferSize; i++) {
-            output[i*nChannels    ] = soundBuffer[i] / (oscillators.size()+1);
-            output[i*nChannels + 1] = soundBuffer[i] / (oscillators.size()+1);
+            output[i*nChannels    ] = soundBuffer[i]; // / (oscillators.size()+1);
+            output[i*nChannels + 1] = soundBuffer[i]; // / (oscillators.size()+1);
         }
 
 }
@@ -60,7 +57,7 @@ void ofApp::update(){
     for (int i = 0; i < line.getVertices().size(); i++){
         ofPoint fromCenter = line.getVertices()[i] - ofPoint(ofGetWidth()/2, ofGetHeight()/2);
         ofMatrix4x4 rotateMatrix;
-        rotateMatrix.makeRotationMatrix(0.75, rotateX, rotateY, rotateZ);
+        rotateMatrix.makeRotationMatrix(0.375, rotateX, rotateY, rotateZ);
         ofPoint rot = fromCenter * rotateMatrix + ofPoint(ofGetWidth()/2, ofGetHeight()/2);
         line.getVertices()[i] = rot; // this crashes sometimes. maybe needs some sort of buffer that causes the line to have a certain minimum amount of points?
     }
@@ -69,7 +66,7 @@ void ofApp::update(){
         for (int j = 0; j < lines[i].getVertices().size(); j++){
             ofPoint fromCenter = lines[i].getVertices()[j] - ofPoint(ofGetWidth()/2, ofGetHeight()/2);
             ofMatrix4x4 rotateMatrix;
-            rotateMatrix.makeRotationMatrix(0.75, rotateX, rotateY, rotateZ);
+            rotateMatrix.makeRotationMatrix(0.375, rotateX, rotateY, rotateZ);
             ofPoint rot = fromCenter * rotateMatrix + ofPoint(ofGetWidth()/2, ofGetHeight()/2);
             lines[i].getVertices()[j] = rot;
         }
@@ -83,8 +80,13 @@ void ofApp::update(){
 void ofApp::draw(){
     
     ofBackgroundGradient(255, 127);
-    ofSetColor(0,0,0);
-    
+    ofSetColor(127,127,127);
+
+    for (int i = 0; i < (ofGetHeight()/50) - 1; i++) {
+        ofSetLineWidth(1);
+        ofLine(0, (i+1)*50, ofGetWidth(), (i+1)*50);
+    }
+    ofCircle(ofGetMouseX(), ofGetMouseY(), 2);
     if (mouseDown) ofCircle(ofGetMouseX(), ofGetMouseY(), 5);
     
     // click
@@ -216,6 +218,7 @@ void ofApp::keyReleased(int key){
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
 
+    
 }
 
 //--------------------------------------------------------------
