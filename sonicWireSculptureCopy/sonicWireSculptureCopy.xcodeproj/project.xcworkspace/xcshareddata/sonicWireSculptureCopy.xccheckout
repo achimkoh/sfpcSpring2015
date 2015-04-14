@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4D7FDBEF-DD57-43E8-97D3-681545D8E3E4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>sonicWireSculptureCopy</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</key>
+		<string>https://github.com/akkakkak/sfpcSpring2015</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>sonicWireSculptureCopy/sonicWireSculptureCopy.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/akkakkak/sfpcSpring2015</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sfpc2015</string>
+		</dict>
+	</array>
+</dict>
+</plist>

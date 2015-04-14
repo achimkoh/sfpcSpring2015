@@ -35,7 +35,6 @@ void ofApp::update(){
 void ofApp::draw(){
     
     ofBackgroundGradient(255,128);
-    
     for (int i = 0; i < width/catDistance; i++) {
         for (int j = 0; j < height/catDistance; j++) {
             origin.x = catDistance*(i+0.5);
@@ -43,12 +42,18 @@ void ofApp::draw(){
 
             ofPushMatrix();
                 ofTranslate(origin);
-//            if (rotate) {
-//                ofRotateZ(ofRandom(angle-rotateSpeed, angle));
-//            }
-// how can i make every cat's angle go crazy different? the above line seems to result in every frame to have cats different in angle but within rotateSpeed. I would like each cat to have their own angle var that will be modified with one rotateSpeed
+/*                
+                if(rotate) {
+                    if(counterclockwise) {
+                        angle -= 45;
+                    } else {
+                        angle += 45;
+                    }
+                }
+ */
                 ofRotateZ(angle);
                 drawCat(0,0,catScale);
+
             ofPopMatrix();
         }
     }
@@ -136,7 +141,7 @@ void ofApp::drawCat(int x, int y, float scale){
         ofCircle(catCenter.x + 0.3*catUnit*xDirection, catCenter.y-2*catUnit, 0.35*catUnit);
         // eyes
         ofCircle(catCenter.x-catUnit*xDirection,catCenter.y-catUnit/2,catUnit*0.55);
-        ofSetColor(ofColor::white);
+        ofSetColor(210,250,180);
         ofCircle(catCenter.x-catUnit*xDirection,catCenter.y-catUnit/2,catUnit*0.45);
         ofSetColor(ofColor::black);
         ofCircle(catCenter.x-catUnit*xDirection,catCenter.y-catUnit/2,catUnit*0.35);
@@ -161,9 +166,9 @@ void ofApp::drawCat(int x, int y, float scale){
     ofCircle(catCenter.x, catCenter.y+0.4*catUnit, 0.4*catUnit);
     square(catCenter.x, catCenter.y, 0.8*catUnit);
     // nose
-    ofSetColor(r*ofRandom(240-colorRandomness/2,240),g*ofRandom(240-colorRandomness/2,240),b*ofRandom(240-colorRandomness/2,240));
-    ofCircle(catCenter.x, catCenter.y+0.3*catUnit, 0.35*catUnit);
+    ofSetColor(r*ofRandom(240-colorRandomness/4,240),g*ofRandom(220-colorRandomness/2,220),b*ofRandom(220-colorRandomness/2,220));
     square(catCenter.x, catCenter.y-0.1*catUnit, 0.7*catUnit);
+    ofCircle(catCenter.x, catCenter.y+0.3*catUnit, 0.35*catUnit);
     
 }
 
