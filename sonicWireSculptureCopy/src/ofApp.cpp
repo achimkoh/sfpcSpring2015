@@ -37,14 +37,16 @@ void ofApp::audioOut( float * output, int bufferSize, int nChannels ) {
             soundBuffer[i] = sinWave.getSample();
 
             for (int j = 0; j < oscillators.size(); j++) {
-                soundBuffer[i+j+1] = oscillators[j].getSample();
+//                soundBuffer[i+j+1] = oscillators[j].getSample();
+                soundBuffer[i] += oscillators[j].getSample();
             }
         }
-        
+
         for (int i = 0; i < bufferSize; i++) {
             output[i*nChannels    ] = soundBuffer[i] / (oscillators.size()+1);
             output[i*nChannels + 1] = soundBuffer[i] / (oscillators.size()+1);
         }
+
 }
 
 //--------------------------------------------------------------
@@ -80,7 +82,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    ofBackgroundGradient(255, 128);
+    ofBackgroundGradient(255, 127);
     ofSetColor(0,0,0);
     
     if (mouseDown) ofCircle(ofGetMouseX(), ofGetMouseY(), 5);
@@ -164,9 +166,12 @@ void ofApp::draw(){
                 ofLine(crossing, biggest);
                 
                 oscillators[i].setFrequency(MAX(1, ofGetWidth() - pta.y));
-                oscillators[i].setVolume(0.5);
-//                if (j == 0) oscillators[i].setVolume(0.5);
-//                if (j == lines[i].getVertices().size()-2) oscillators[i].setVolume(0);
+                if (j == 0) {
+                   // if (ptb.z > 0)
+                        oscillators[i].setVolume(0.5);
+                }
+                
+                if (j == lines[i].getVertices().size()-2) oscillators[i].setVolume(0);
                 
             }
         }
