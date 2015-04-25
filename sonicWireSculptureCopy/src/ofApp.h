@@ -24,15 +24,34 @@ class ofApp : public ofBaseApp{
     ofPolyline line;
     vector < ofPolyline > lines;
     float rotateX, rotateY, rotateZ, tempY;
-    bool mouseDown, keyDown;
+    bool rec, keyDown;
     int frameCount;
-        
+    ofPoint center;
+    void crosshair(int size, ofColor color);
+    
+    // fix oscillator
+
     void audioOut( float * output, int bufferSize, int nChannels );
-//    double phase;
     ofSoundStream stream;
     float * soundBuffer;
     oscillator sinWave;
-    vector < oscillator > oscillators;
+    vector < oscillator > clips;
+
+    vector < bool > left;
+    int cycleLength;
+    
+    float fullCircleTime;
+    float rpf;
+
+    int gridInterval;
+    bool snap;
+    ofPoint snapPoint;
+    int previousY;
     
     ofSoundPlayer click;
+    ofSoundPlayer wave;
+    vector < ofSoundPlayer > waves;
+    
+    bool reverb;
+    
 };
