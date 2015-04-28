@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A08D564C-CEBC-4760-B710-5A12F90B6FDE</string>
 	<key>IDESourceControlProjectName</key>
-	<string>sonicWireSculptorLoop</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</key>
 		<string>https://github.com/akkakkak/sfpcSpring2015</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>sonicWireSculptorLoop/sonicWireSculptorLoop.xcodeproj</string>
+	<string>sonicWireSculptorLoop/sonicWireSculptorLoop.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</key>
