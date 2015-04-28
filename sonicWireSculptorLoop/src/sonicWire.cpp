@@ -68,7 +68,10 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
 
 void sonicWire::play() {
     
+    if (playhead < 0) playhead = 0;
+    if (playhead > line.size()) playhead = line.size();
     playing = TRUE;
+    
     wave.setVolume(0.5*wave.getVolume() + 0.5*0.3);
     wave.setPan(pan(line[playhead].x));
     wave.setSpeed(pitch(line[playhead].y));
@@ -112,7 +115,7 @@ void sonicWire::draw() {
         ofSetColor(255,0,0);
         ofCircle(ofGetMouseX(), ofGetMouseY(), 5);
     } else if (playing) {
-        ofSetColor(255,255,255, 127);
+        ofSetColor(0,255,0);
         ofCircle(line[playhead].x, line[playhead].y, 5);
     }
 

@@ -22,6 +22,8 @@ public:
     
     vector < sonicWire > wires;
     
-    //    bool keyDown;
+    bool keyDown;
+    
+    ofEasyCam camera;
     
 };

@@ -3,16 +3,19 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
+//    camera.setDistance(-800);
+
     ofSetFrameRate(60);
     ofSetVerticalSync(true); // what does this do?
- 
+//    ofSetupScreenPerspective(0, 0, 90);
+    
     rotateX = 0;
     rotateY = 1;
     rotateZ = 0;
     tempY = 0;
     
     rotAngle = 0.75;
-//    keyDown = FALSE; // used to stop Y rotation when rotating on X axis, and restoring it
+    keyDown = FALSE; // used to stop Y rotation when rotating on X axis, and restoring it
     
     gridInterval = 20;
     
@@ -34,11 +37,15 @@ void ofApp::update(){
 void ofApp::draw(){
     
     ofSetColor(127,127,127);
-    
     for (int i = 0; i < (ofGetHeight()/gridInterval) - 1; i++) {
         ofSetLineWidth(1);
         ofLine(0, (i+1)*gridInterval, ofGetWidth(), (i+1)*gridInterval);
     }
+    
+    ofEllipse(400, 750, 100, 40);
+    
+    ofSetColor(0);
+    ofLine(400, 450, 400, 750);
 
     // crosshair (serves as click)
     crosshair(4, 10, ofColor::black, ofColor::red);
@@ -46,12 +53,15 @@ void ofApp::draw(){
     // cursor
     ofCircle(ofGetMouseX(), ofGetMouseY(), 2);
 
+    camera.begin();
+
     for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
         wires[wireNum].draw();
     }
-
+    camera.end();
+    
     // instructions
-//    ofDrawBitmapStringHighlight("z<->x to rotate on X axis", ofPoint(20,20));
+    ofDrawBitmapStringHighlight("z<->x to rotate on X axis", ofPoint(20,20));
     ofDrawBitmapStringHighlight("r to reverse playback, s to stop playback", ofPoint(20,40));
     ofDrawBitmapStringHighlight("spacebar to undo", ofPoint(20,60));
 }
@@ -95,7 +105,7 @@ void ofApp::keyPressed(int key){
             rotateY = 0;
         } else rotateY = tempY;
     }
-    /*
+
     // x rotation
     if (key == 'z' || key == 'x') {
         if (!keyDown) {
@@ -106,12 +116,10 @@ void ofApp::keyPressed(int key){
         if (key == 'z') rotateX = 1;
         else rotateX = -1;
     }
-     */
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-    /*
     // x rotation stop
     
     if (key == 'z' || key == 'x') {
@@ -119,7 +127,6 @@ void ofApp::keyReleased(int key){
         rotateX = 0;
         keyDown = FALSE;
     }
-    */
 }
 
 
