@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "sonicWire.h"
 
 class ofApp : public ofBaseApp{
     
@@ -14,31 +15,13 @@ public:
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
 
-    void crosshair(int size, ofColor color);
+    void crosshair(int size, int time, ofColor color1, ofColor color2);
+
+    int gridInterval, counter;
+    float rotAngle, rotateX, rotateY, rotateZ, tempY;
     
-    // drawing lines
-    ofPolyline line;
-    vector < ofPolyline > lines;
-    bool curLeft;
-    vector < bool > left;
-    float rotateX, rotateY, rotateZ, tempY;
-    bool rec, keyDown;
-    int frameCount;
+    vector < sonicWire > wires;
     
-    bool snap;
-    ofPoint snapPoint;
-    int previousY;
-    
-    int beatLength;
-    int cycleLength;
-    float rotAngle;
-    int gridInterval;
-    
-    // sound
-    ofSoundPlayer wave;
-    vector < ofSoundPlayer > waves;
-    vector < ofPoint > playheads;
-    float pitch(int y);
-    float pan(int x);
+    //    bool keyDown;
     
 };

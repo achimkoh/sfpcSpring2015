@@ -7,9 +7,9 @@ void ofApp::setup(){
     ofSetCircleResolution(32);
     ofSetFrameRate(30);
     
-//    bgm.loadSound("comtruise.aiff");
-//    bgm.setVolume(0.7);
-//    bgm.play();
+    bgm.loadSound("comtruise.aiff");
+    bgm.setVolume(0.7);
+    bgm.play();
 
     sinpoints.push_back(ofPoint(450,200));
     cospoints.push_back(ofPoint(300,450));
