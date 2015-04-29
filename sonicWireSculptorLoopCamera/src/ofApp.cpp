@@ -4,20 +4,26 @@
 void ofApp::setup(){
     
     ofSetFrameRate(60);
-    ofSetVerticalSync(true);
+    ofSetVerticalSync(true); // what does this do?
+//    ofSetupScreenPerspective(0, 0, 90);
     
     rotateX = 0;
     rotateY = 1;
     rotateZ = 0;
     tempY = 0;
     
-    rotAngle = 0.75;
+    rotAngle = 0.075;
     keyDown = FALSE; // used to stop Y rotation when rotating on X axis, and restoring it
     
     gridInterval = 20;
     
     counter = 0;
     
+    myCam.setPosition( ofGetWidth()/2, ofGetHeight()/2, 0);
+    myCam.lookAt(ofPoint(0,0,-500));
+    myCam.setFov(10);
+    
+    bUseCamera = false;
 }
 
 //--------------------------------------------------------------
@@ -40,19 +46,30 @@ void ofApp::draw(){
         ofSetLineWidth(1);
         ofLine(0, (i+1)*gridInterval, ofGetWidth(), (i+1)*gridInterval);
     }
-    
-    ofSetColor(0);
-    ofEllipse(400, 750, 100, 40);
-    ofLine(400, 450, 400, 750);
 
     // crosshair (serves as click)
     crosshair(4, 10, ofColor::black, ofColor::red);
 
     // cursor
     ofCircle(ofGetMouseX(), ofGetMouseY(), 2);
+
+    if (!bUseCamera) {
+        ofSetColor(0);
+        
+        ofEllipse(400, 750, 100, 40);
+        
+        ofLine(400, 450, 400, 750);
+    }
+    if (bUseCamera){
+        myCam.begin();
+    }
     
     for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
         wires[wireNum].draw();
+    }
+    
+    if (bUseCamera){
+        myCam.end();
     }
     
     // instructions
@@ -111,6 +128,10 @@ void ofApp::keyPressed(int key){
         if (key == 'z') rotateX = 1;
         else rotateX = -1;
     }
+    
+    if (key == 'c'){
+        bUseCamera = !bUseCamera;  // ^
+    }
 }
 
 //--------------------------------------------------------------
@@ -129,6 +150,7 @@ void ofApp::keyReleased(int key){
 void ofApp::mousePressed(int x, int y, int button){
 
     sonicWire wire;
+    wire.cam = &myCam;
     wires.push_back(wire);
     wires.back().setup(rotAngle);
     wires.back().startRec(counter, rotAngle);

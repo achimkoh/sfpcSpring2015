@@ -4,6 +4,7 @@
 
 void sonicWire::setup(float rotAngle) {
     
+    playhead = 0;
     maxFrames = 360 / rotAngle;
     start = 0;
 
@@ -22,13 +23,13 @@ void sonicWire::setup(float rotAngle) {
 void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, int counter) {
     
     cur = counter % maxFrames;
-    yDirection = rotateY;
     
     // add current point to line and play it
     if (rec) {
         ofPoint mouse;
-        mouse.set(ofGetMouseX(), ofGetMouseY());
-        line.addVertex(mouse);
+        ofPoint pt = cam->screenToWorld( ofPoint(ofGetMouseX(), ofGetMouseY() ));
+        //mouse.set(ofGetMouseX(), ofGetMouseY());
+        line.addVertex(pt);
         wave.setPan(pan(mouse.x));
         wave.setSpeed(pitch(mouse.y));
         
@@ -36,19 +37,18 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
 
     // play everything else
     } else { // is counting system stable enough?
+        if (playhead == 0) stop();
+        if (cur == start) play();
         if (playing) {
-            if (playhead > 0 && playhead < line.size()) play();
-            else stop();
-        } else {
-            if (yDirection == 1  && cur == start) play();
-            else if (yDirection == -1 && cur == start + line.size()) play();
+            if (playhead < line.size()) play();
             else stop();
         }
     }
+
     
     // rotate!
     for (int i = 0; i < line.size(); i++){
-        ofPoint fromCenter = line[i] - ofPoint(ofGetWidth()/2, ofGetHeight()/2);
+        ofPoint fromCenter = line.getVertices()[i] - ofPoint(ofGetWidth()/2, ofGetHeight()/2);
         ofMatrix4x4 rotateMatrix;
         rotateMatrix.makeRotationMatrix(rotAngle, rotateX, rotateY, rotateZ);
         line[i] = fromCenter * rotateMatrix + ofPoint(ofGetWidth()/2, ofGetHeight()/2);
@@ -59,15 +59,17 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
 //--------------------------------------------------------
 
 void sonicWire::play() {
-   
+    
+    if (playhead < 0) playhead = 0;
+    if (playhead > line.size()) playhead = line.size();
     playing = TRUE;
     
     wave.setVolume(0.5*wave.getVolume() + 0.5*0.3);
     wave.setPan(pan(line[playhead].x));
     wave.setSpeed(pitch(line[playhead].y));
     
-    playhead += yDirection;
-
+    playhead++;
+    
 }
 
 //--------------------------------------------------------
@@ -77,8 +79,7 @@ void sonicWire::stop() {
     playing = FALSE;
     wave.setVolume(0.9*wave.getVolume());
 
-    if (yDirection == 1) playhead = 0;
-    if (yDirection == -1) playhead = line.size();
+    playhead = 0;
 }
 
 //--------------------------------------------------------
@@ -98,14 +99,12 @@ void sonicWire::draw() {
 
     // original
     for (int i = 0; i < line.size() - 1; i++){
-//        ofPoint pta = line[i];
-//        ofPoint ptb = line[i+1];
-        ofSetColor(255);
-        ofCircle(line[i], ofMap(line[i].z, -800, 800, 1, 5));
+        ofPoint pta = line[i];
+        ofPoint ptb = line[i+1];
         
-//        ofSetColor(ofMap(pta.z, -800, 800, 127, 0));
-//        ofSetLineWidth(ofMap(pta.z, -800, 800, 1, 5));
-//        ofLine(pta, ptb);
+        ofSetColor(ofMap(pta.z, -800, 800, 127, 0));
+        ofSetLineWidth(ofMap(pta.z, -800, 800, 1, 5));
+        ofLine(pta, ptb);
     } 
     if (rec) {
         ofSetColor(255,0,0);
@@ -126,6 +125,7 @@ void sonicWire::startRec(int counter, float rotAngle) {
     wave.setVolume(0.3);
 
     start = counter % int(360 / rotAngle);
+    playhead = 0;
 
     rec = TRUE;
     
@@ -136,7 +136,6 @@ void sonicWire::startRec(int counter, float rotAngle) {
 void sonicWire::stopRec(int counter) {
     
     rec = FALSE;
-    stop();
     
 }
 

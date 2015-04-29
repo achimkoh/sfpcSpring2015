@@ -15,8 +15,11 @@ public:
     bool noLine();
 
     void update(float rotAngle, int rotateX, int rotateY, int rotateZ, int counter);
-    int maxFrames, yDirection;
+    int maxFrames;
     void draw();
+    
+    ofCamera * cam;
+    
 
     // smoothing line
 //    bool snap;
