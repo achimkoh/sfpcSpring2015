@@ -23,5 +23,7 @@ public:
     vector < sonicWire > wires;
     
     bool keyDown;
+    
+    ofSoundPlayer metronome;
         
 };

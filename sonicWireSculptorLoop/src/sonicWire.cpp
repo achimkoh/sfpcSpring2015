@@ -15,8 +15,6 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
         wave.setPan(pan(mouse.x));
         wave.setSpeed(pitch(mouse.y));
         
-        if (line.size() > maxFrames - 1) stopRec();
-
     // while not recording, playback for the right duration
     } else {
 
@@ -151,10 +149,15 @@ void sonicWire::stopRec() {
 
 float sonicWire::pitch(int y){
     
-    // improve pitch mapping
+    // chromatic scale according to grid
+    int p = ofMap(y, ofGetHeight(), 0, 0, 80, TRUE);
+    float q = p - 40;
+    float tone = powf(2,q/12);
     
-    float pitchReturn = ofMap(y, ofGetHeight(), 0, 0.0625, 2);
-    return pitchReturn;
+    return tone;
+    
+//    float pitchReturn = ofMap(y, ofGetHeight(), 0, 0.0625, 2);
+//    return pitchReturn;
     
 }
 

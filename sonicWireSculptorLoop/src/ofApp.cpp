@@ -18,6 +18,8 @@ void ofApp::setup(){
     
     counter = 0;
     
+    metronome.loadSound("stick.wav");
+    metronome.setVolume(0.3);
 }
 
 //--------------------------------------------------------------
@@ -34,11 +36,19 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    // background reacts to total volume
+    ofBackground(0);
+    float s = *ofSoundGetSpectrum(8);
+    ofBackgroundGradient(ofColor(127,127), ofColor(ofMap(s,0,1,0,255)));
+    
+    // draw grid
     ofSetColor(127,127,127);
     for (int i = 0; i < (ofGetHeight()/gridInterval) - 1; i++) {
         ofSetLineWidth(1);
         ofLine(0, (i+1)*gridInterval, ofGetWidth(), (i+1)*gridInterval);
     }
+    
+    if (counter % 30 == 0) metronome.play();
     
     ofSetColor(0);
     ofEllipse(400, 750, 100, 40);
@@ -48,6 +58,7 @@ void ofApp::draw(){
     crosshair(4, 10, ofColor::black, ofColor::red);
 
     // cursor
+    ofSetColor(255);
     ofCircle(ofGetMouseX(), ofGetMouseY(), 2);
     
     for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
@@ -57,7 +68,7 @@ void ofApp::draw(){
     // instructions
     ofDrawBitmapStringHighlight("z<->x to rotate on X axis", ofPoint(20,20));
     ofDrawBitmapStringHighlight("r to reverse playback, s to stop playback", ofPoint(20,40));
-    ofDrawBitmapStringHighlight("spacebar to undo", ofPoint(20,60));
+    ofDrawBitmapStringHighlight("spacebar to undo, m to toggle metronome", ofPoint(20,60));
 }
 
 //--------------------------------------------------------------
@@ -115,6 +126,12 @@ void ofApp::keyPressed(int key){
         rotateY = 0;
         if (key == 'z') rotateX = 1;
         else rotateX = -1;
+    }
+    
+    // click
+    if (key == 'm') {
+        if (metronome.getVolume() != 0) metronome.setVolume(0);
+        else metronome.setVolume(0.3);
     }
 }
 
