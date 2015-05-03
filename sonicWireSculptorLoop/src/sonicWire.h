@@ -7,15 +7,15 @@ class sonicWire {
     
 public:
     
-    void setup(float rotAngle);
     void startRec(int counter, float rotAngle);
-    void stopRec(int counter);
+    void stopRec();
     ofPolyline line;
     bool rec;
     bool noLine();
 
     void update(float rotAngle, int rotateX, int rotateY, int rotateZ, int counter);
-    int maxFrames, yDirection;
+    int maxFrames;
+    bool hasChangedDirection;
     void draw();
 
     // smoothing line
@@ -27,11 +27,12 @@ public:
     ofSoundPlayer wave;
     float pitch(int y);
     float pan(int x);
-    int start, cur, playhead;
+    int start, playhead, cur;
     bool playing;
     void play();
     void stop();
-    
+    void reverse(int dir);
+        
 };
 
 #endif

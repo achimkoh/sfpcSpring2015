@@ -2,29 +2,12 @@
 
 //--------------------------------------------------------
 
-void sonicWire::setup(float rotAngle) {
-    
-    maxFrames = 360 / rotAngle;
-    start = 0;
-
-    wave.loadSound("440hz.aiff");
-    wave.setLoop(TRUE);
-    wave.setVolume(0);
-    wave.play();
-    
-    rec = FALSE;
-    playing = FALSE;
-
-}
-
-//--------------------------------------------------------
-
 void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, int counter) {
     
     cur = counter % maxFrames;
-    yDirection = rotateY;
+    if (cur < 0) cur += maxFrames;
     
-    // add current point to line and play it
+    // while recording, add current point to line and play it
     if (rec) {
         ofPoint mouse;
         mouse.set(ofGetMouseX(), ofGetMouseY());
@@ -32,16 +15,19 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
         wave.setPan(pan(mouse.x));
         wave.setSpeed(pitch(mouse.y));
         
-        if (line.size() > maxFrames - 1) stopRec(counter);
+        if (line.size() > maxFrames - 1) stopRec();
 
-    // play everything else
-    } else { // is counting system stable enough?
+    // while not recording, playback for the right duration
+    } else {
+
         if (playing) {
             if (playhead > 0 && playhead < line.size()) play();
-            else stop();
+            else {
+                stop();
+                if (playhead == 0 || playhead == line.size()) playhead = line.size() - playhead;
+            }
         } else {
-            if (yDirection == 1  && cur == start) play();
-            else if (yDirection == -1 && cur == start + line.size()) play();
+            if (cur == start) play();
             else stop();
         }
     }
@@ -66,7 +52,8 @@ void sonicWire::play() {
     wave.setPan(pan(line[playhead].x));
     wave.setSpeed(pitch(line[playhead].y));
     
-    playhead += yDirection;
+    if (hasChangedDirection) playhead--;
+    else playhead++;
 
 }
 
@@ -77,8 +64,17 @@ void sonicWire::stop() {
     playing = FALSE;
     wave.setVolume(0.9*wave.getVolume());
 
-    if (yDirection == 1) playhead = 0;
-    if (yDirection == -1) playhead = line.size();
+    if (hasChangedDirection) playhead = line.size() - 1;
+    else playhead = 0;
+}
+
+//--------------------------------------------------------
+
+void sonicWire::reverse(int dir) {
+
+    hasChangedDirection = !hasChangedDirection;
+    start = (start - line.size() * dir) % maxFrames;
+
 }
 
 //--------------------------------------------------------
@@ -100,10 +96,10 @@ void sonicWire::draw() {
     for (int i = 0; i < line.size() - 1; i++){
 //        ofPoint pta = line[i];
 //        ofPoint ptb = line[i+1];
-        ofSetColor(255);
+        ofSetColor(ofMap(line[i].z, -400, 200, 127, 255, TRUE));
         ofCircle(line[i], ofMap(line[i].z, -800, 800, 1, 5));
         
-//        ofSetColor(ofMap(pta.z, -800, 800, 127, 0));
+        //        ofSetColor(ofMap(pta.z, -800, 800, 127, 0));
 //        ofSetLineWidth(ofMap(pta.z, -800, 800, 1, 5));
 //        ofLine(pta, ptb);
     } 
@@ -112,7 +108,7 @@ void sonicWire::draw() {
         ofCircle(ofGetMouseX(), ofGetMouseY(), 5);
     } else if (playing) {
         ofSetColor(0,255,0);
-        ofCircle(line[playhead].x, line[playhead].y, 5);
+        ofCircle(line[playhead], 5);
     }
 
 }
@@ -120,20 +116,31 @@ void sonicWire::draw() {
 //--------------------------------------------------------
 
 void sonicWire::startRec(int counter, float rotAngle) {
+
+    maxFrames = 360 / rotAngle;
+    
+    wave.loadSound("440hz.aiff");
+    wave.setLoop(TRUE);
     
     wave.setPan(pan(ofGetMouseX()));
     wave.setSpeed(pitch(ofGetMouseY()));
     wave.setVolume(0.3);
+    wave.play();
 
-    start = counter % int(360 / rotAngle);
+    start = counter % maxFrames;
+    if (start < 0) start += maxFrames;
 
     rec = TRUE;
+    playing = FALSE;
+    hasChangedDirection = FALSE;
     
+    playhead = 0;
+
 }
 
 //--------------------------------------------------------
 
-void sonicWire::stopRec(int counter) {
+void sonicWire::stopRec() {
     
     rec = FALSE;
     stop();
@@ -143,6 +150,8 @@ void sonicWire::stopRec(int counter) {
 //--------------------------------------------------------
 
 float sonicWire::pitch(int y){
+    
+    // improve pitch mapping
     
     float pitchReturn = ofMap(y, ofGetHeight(), 0, 0.0625, 2);
     return pitchReturn;

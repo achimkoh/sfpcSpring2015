@@ -10,9 +10,9 @@ void ofApp::setup(){
     rotateY = 1;
     rotateZ = 0;
     tempY = 0;
+    keyDown = FALSE; // used to store Y rotation
     
     rotAngle = 0.75;
-    keyDown = FALSE; // used to stop Y rotation when rotating on X axis, and restoring it
     
     gridInterval = 20;
     
@@ -22,7 +22,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
     
     counter += rotateY;
     
@@ -93,9 +92,15 @@ void ofApp::keyPressed(int key){
     }
     
     // y rotation control
-    if (key == 'r') rotateY *= -1;
-    if (key == 's') {
-        if (rotateY != 0) {
+    if (key == 'r') {
+        rotateY *= -1;
+        for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
+            wires[wireNum].reverse(rotateY);
+        }
+    }
+    
+    if (key == 's') { // drawing while stopped will cause awkward sound
+        if (rotateY) {
             tempY = rotateY;
             rotateY = 0;
         } else rotateY = tempY;
@@ -104,7 +109,7 @@ void ofApp::keyPressed(int key){
     // x rotation
     if (key == 'z' || key == 'x') {
         if (!keyDown) {
-            tempY = rotateY;
+            if (rotateY) tempY = rotateY;
             keyDown = TRUE;
         }
         rotateY = 0;
@@ -130,7 +135,6 @@ void ofApp::mousePressed(int x, int y, int button){
 
     sonicWire wire;
     wires.push_back(wire);
-    wires.back().setup(rotAngle);
     wires.back().startRec(counter, rotAngle);
     
 }
@@ -138,7 +142,7 @@ void ofApp::mousePressed(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
     
-    wires.back().stopRec(counter);
+    wires.back().stopRec();
     if (wires.back().noLine()) wires.pop_back();
 
 }
