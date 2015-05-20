@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C70AF698-BE5C-4CCD-9042-FF86D2E4FE0F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>sonicWireSculptorCopy</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</key>
+		<string>https://github.com/akkakkak/sfpcSpring2015</string>
+		<key>4131F34236DEB94090351DE98CD44A123F2873AB</key>
+		<string>https://github.com/timscaffidi/ofxVideoRecorder.git</string>
+		<key>A6343E16BC2F648D0FEA647FB75CBADE0A25E0B8</key>
+		<string>https://github.com/Flightphase/ofxTextInputField.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>sonicWireSculptorCopy/sonicWireSculptorCopy.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</key>
+		<string>../../..</string>
+		<key>4131F34236DEB94090351DE98CD44A123F2873AB</key>
+		<string>../../../../addons/ofxVideoRecorder</string>
+		<key>A6343E16BC2F648D0FEA647FB75CBADE0A25E0B8</key>
+		<string>../../../../addons/ofxTextInputField</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/akkakkak/sfpcSpring2015</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A6343E16BC2F648D0FEA647FB75CBADE0A25E0B8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxTextInputField</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4131F34236DEB94090351DE98CD44A123F2873AB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxVideoRecorder</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0C285AA8FE37D8A86F52BB75FD631E4BD22BB4CE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sfpcSpring2015</string>
+		</dict>
+	</array>
+</dict>
+</plist>

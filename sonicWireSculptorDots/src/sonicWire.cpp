@@ -12,7 +12,8 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
         ofPoint mouse;
         mouse.set(ofGetMouseX(), ofGetMouseY());
         line.addVertex(mouse);
-        waveSetup(wave, mouse);
+        wave.setPan(pan(mouse.x));
+        wave.setSpeed(pitch(mouse.y));
         
     // while not recording, playback for the right duration
     } else {
@@ -44,8 +45,10 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
 void sonicWire::play() {
    
     playing = TRUE;
-
-    waveSetup(wave, line[playhead]);
+    
+    wave.setVolume(0.5*wave.getVolume() + 0.5*0.3);
+    wave.setPan(pan(line[playhead].x));
+    wave.setSpeed(pitch(line[playhead].y));
     
     if (hasChangedDirection) playhead--;
     else playhead++;
@@ -61,8 +64,6 @@ void sonicWire::stop() {
 
     if (hasChangedDirection) playhead = line.size() - 1;
     else playhead = 0;
-    
-    pitchCache = 0;
 }
 
 //--------------------------------------------------------
@@ -89,16 +90,17 @@ void sonicWire::draw() {
     ofEndShape();
      */
 
+    // original
     for (int i = 0; i < line.size() - 1; i++){
+//        ofPoint pta = line[i];
+//        ofPoint ptb = line[i+1];
         ofSetColor(ofMap(line[i].z, -400, 200, 127, 255, TRUE));
         ofCircle(line[i], ofMap(line[i].z, -800, 800, 1, 5));
         
-//        ofPoint pta = line[i];
-//        ofPoint ptb = line[i+1];
-//        ofSetColor(ofMap(pta.z, -800, 800, 127, 0));
+        //        ofSetColor(ofMap(pta.z, -800, 800, 127, 0));
 //        ofSetLineWidth(ofMap(pta.z, -800, 800, 1, 5));
 //        ofLine(pta, ptb);
-    }
+    } 
     if (rec) {
         ofSetColor(255,0,0);
         ofCircle(ofGetMouseX(), ofGetMouseY(), 5);
@@ -118,7 +120,9 @@ void sonicWire::startRec(int counter, float rotAngle) {
     wave.loadSound("440hz.aiff");
     wave.setLoop(TRUE);
     
-    waveSetup(wave, ofPoint(ofGetMouseX(), ofGetMouseY()));
+    wave.setPan(pan(ofGetMouseX()));
+    wave.setSpeed(pitch(ofGetMouseY()));
+    wave.setVolume(0.3);
     wave.play();
 
     start = counter % maxFrames;
@@ -129,8 +133,6 @@ void sonicWire::startRec(int counter, float rotAngle) {
     hasChangedDirection = FALSE;
     
     playhead = 0;
-    
-    pitchCache = 0;
 
 }
 
@@ -151,12 +153,12 @@ float sonicWire::pitch(int y){
     int p = ofMap(y, ofGetHeight(), 0, 0, 80, TRUE);
     float q = p - 40;
     float tone = powf(2,q/12);
-
-    // glide
-    if (pitchCache != 0) tone = (0.1 * tone) + (0.9 * pitchCache);
-    pitchCache = tone;
     
     return tone;
+    
+//    float pitchReturn = ofMap(y, ofGetHeight(), 0, 0.0625, 2);
+//    return pitchReturn;
+    
 }
 
 //--------------------------------------------------------
@@ -165,25 +167,6 @@ float sonicWire::pan(int x){
     
     float panReturn = ofMap(ofGetWidth()/2 - x, ofGetWidth()/2, -1*ofGetWidth()/2, -0.8, 0.8);
     return panReturn;
-    
-}
-
-//--------------------------------------------------------
-
-float sonicWire::volume(int x){
-    
-    float volumeReturn = ofMap(abs(ofGetWidth()/2 - x), 0, ofGetWidth()/2, 0.1, 0.4);
-    return volumeReturn;
-    
-}
-
-//--------------------------------------------------------
-
-void sonicWire::waveSetup(ofSoundPlayer player, ofPoint point){
-    
-    wave.setPan(pan(point.x));
-    wave.setSpeed(pitch(point.y));
-    wave.setVolume(volume(point.x));
     
 }
 

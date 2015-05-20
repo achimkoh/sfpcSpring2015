@@ -27,15 +27,12 @@ void ofApp::update(){
     
     counter += rotateY;
     
-    for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
-        wires[wireNum].update(rotAngle, rotateX, rotateY, rotateZ, counter);
-    }
-    
-//    if (counter % 10 == 0) {
-//        string fileName;
-//        fileName = "screen" + ofToString(counter/10) + ".png";
-//        ofSaveScreen(fileName);
+//    for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
+//        wires[wireNum].update(rotAngle, rotateX, rotateY, rotateZ, counter);
 //    }
+    
+    for (int i = 0; i < dots.size(); i++) dots[i].update(rotAngle, rotateX, rotateY, rotateZ, counter);
+    
 }
 
 //--------------------------------------------------------------
@@ -44,7 +41,7 @@ void ofApp::draw(){
     // background reacts to total volume
     ofBackground(0);
     float s = *ofSoundGetSpectrum(8);
-    ofBackgroundGradient(ofColor(100, 100), ofColor(ofMap(s,0.5,1,0,255)));
+    ofBackgroundGradient(ofColor(127,127), ofColor(ofMap(s,0,1,0,255)));
     
     // draw grid
     ofSetColor(127,127,127);
@@ -53,22 +50,29 @@ void ofApp::draw(){
         ofLine(0, (i+1)*gridInterval, ofGetWidth(), (i+1)*gridInterval);
     }
     
-    // crosshair (serves as click)
-    crosshair(4, 10, ofColor::black, ofColor::red);
     if (counter % 30 == 0) metronome.play();
     
+    ofSetColor(0);
+    ofEllipse(400, 750, 100, 40);
+    ofLine(400, 450, 400, 750);
+
+    // crosshair (serves as click)
+    crosshair(4, 10, ofColor::black, ofColor::red);
+
     // cursor
     ofSetColor(255);
     ofCircle(ofGetMouseX(), ofGetMouseY(), 2);
     
-    for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
-        wires[wireNum].draw();
-    }
+//    for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
+//        wires[wireNum].draw();
+//    }
     
     // instructions
     ofDrawBitmapStringHighlight("z<->x to rotate on X axis", ofPoint(20,20));
     ofDrawBitmapStringHighlight("r to reverse playback, s to stop playback", ofPoint(20,40));
     ofDrawBitmapStringHighlight("spacebar to undo, m to toggle metronome", ofPoint(20,60));
+    
+    for (int i = 0; i < dots.size(); i++) dots[i].draw();
 }
 
 //--------------------------------------------------------------
@@ -133,21 +137,12 @@ void ofApp::keyPressed(int key){
         if (metronome.getVolume() != 0) metronome.setVolume(0);
         else metronome.setVolume(0.3);
     }
-    
-    // change rotation speed .. doesn't really affect playback because playback is tied to frames and points
-    if (key == '[') {
-        rotAngle = rotAngle * 0.5;
-    }
-    
-    if (key == ']') {
-        rotAngle = rotAngle * 2;
-    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
     // x rotation stop
+    
     if (key == 'z' || key == 'x') {
         rotateY = tempY;
         rotateX = 0;
@@ -159,16 +154,23 @@ void ofApp::keyReleased(int key){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 
-    sonicWire wire;
-    wires.push_back(wire);
-    wires.back().startRec(counter, rotAngle);
+//    sonicWire wire;
+//    wires.push_back(wire);
+//    wires.back().startRec(counter, rotAngle);
+    
+    sonicDot dot;
+    dots.push_back(dot);
+    dots.back().startRec(counter, rotAngle);
+    
     
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
     
-    wires.back().stopRec();
-    if (wires.back().noLine()) wires.pop_back();
+//    wires.back().stopRec();
+//    if (wires.back().noLine()) wires.pop_back();
+    
+    dots.back().stopRec();
 
 }
