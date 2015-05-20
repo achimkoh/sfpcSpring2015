@@ -274,9 +274,9 @@ void ofApp::keyReleased(int key){
         }
         
         if (key == ' ') {
-            recStart = ofGetFrameNum();
             bRecording = TRUE;
-            if(bRecording && !vidRecorder.isInitialized()) {
+            if(!vidRecorder.isInitialized()) {
+                recStart = ofGetFrameNum();
                 vidRecorder.setup(fileName+ofGetTimestampString()+fileExt, 800, 800, 30, sampleRate, channels);
             }
         }
