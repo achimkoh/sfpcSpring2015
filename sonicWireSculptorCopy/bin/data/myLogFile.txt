@@ -48,3 +48,21 @@
 
 --------------------------------------- 2015-05-20-12-51-30-481
 [notice ] test4
+
+
+--------------------------------------- 2015-05-20-15-20-18-683
+[notice ] baby1
+[warning] ofThread: - name: Thread 3 - Calling startThread with verbose is deprecated.
+[warning] ofThread: - name: Thread 2 - Calling startThread with verbose is deprecated.
+[warning] ofThread: - name: Thread 1 - Calling startThread with verbose is deprecated.
+
+
+--------------------------------------- 2015-05-20-15-20-45-619
+[notice ] baby2
+[warning] ofThread: - name: Thread 3 - Calling startThread with verbose is deprecated.
+[warning] ofThread: - name: Thread 2 - Calling startThread with verbose is deprecated.
+[warning] ofThread: - name: Thread 1 - Calling startThread with verbose is deprecated.
+
+
+--------------------------------------- 2015-05-20-15-20-59-488
+[notice ] baby2
