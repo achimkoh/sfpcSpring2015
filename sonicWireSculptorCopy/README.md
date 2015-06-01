@@ -1,4 +1,4 @@
-This is an attempt to recreate Amit Pitaru's Sonic Wire Sculptor in openFrameworks.
+This is an attempt to recreate Amit Pitaru's Sonic Wire Sculptor(2003) in openFrameworks.
 
 Original project: http://www.sonicwiresculptor.com/
 
