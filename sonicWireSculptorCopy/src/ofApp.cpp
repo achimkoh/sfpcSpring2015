@@ -257,8 +257,8 @@ void ofApp::keyPressed(int key){
         monoLineTextInput.text = "";
         waitingInput = false;
         monoLineTextInput.cursorPosition = 0;
-        string pythonCommand = "python "+ofToDataPath("send.py", true)+" &";
-        system(pythonCommand.c_str());
+//        string pythonCommand = "python "+ofToDataPath("send.py", true)+" &";
+//        system(pythonCommand.c_str());
     }
     
 }
