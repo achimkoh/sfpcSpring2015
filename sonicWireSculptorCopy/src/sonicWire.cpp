@@ -165,7 +165,7 @@ float sonicWire::volume(int x, int y){
     
     // soften higher notes and boost lower notes
     float yFactor = ofMap(y, 0, ofGetHeight(), 0.3, 1.3, TRUE);
-    if (yFactor > 1) yFactor += 0.3 * yFactor;
+    if (yFactor > 1) yFactor += 0.5 * yFactor;
     volumeReturn *= yFactor * yFactor;
     volumeReturn += 0.3;
     return volumeReturn;

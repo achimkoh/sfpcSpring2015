@@ -211,7 +211,7 @@ void ofApp::crosshair(int size, int time, ofColor color1, ofColor color2){
 void ofApp::keyPressed(int key){
     if (!waitingInput) {
         // y rotation control
-        if (key == OF_KEY_CONTROL) {
+        if (key == OF_KEY_BACKSPACE) {
             rotateY *= -1;
             for (int wireNum = 0; wireNum < wires.size(); wireNum++) {
                 wires[wireNum].reverse(rotateY);
