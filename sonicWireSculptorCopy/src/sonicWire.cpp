@@ -18,15 +18,20 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
     } else {
         
         if (playing) {
-            if (playhead > 0 && playhead < line.size()) play();
+            if (playhead > 0 && playhead < line.size() - 1) {
+                play();
+            }
             else {
                 stop();
-                if (playhead == 0 || playhead == line.size()) playhead = line.size() - playhead;
+                if (playhead == 0 || playhead == line.size()) {
+                    playhead = line.size() - playhead;
+                }
             }
         } else {
-            if (cur == start) play();
+            if (cur == start && rotateY) play();
             else stop();
         }
+
     }
     
     // rotate!
@@ -37,19 +42,22 @@ void sonicWire::update(float rotAngle, int rotateX, int rotateY, int rotateZ, in
         line[i] = fromCenter * rotateMatrix + ofPoint(ofGetWidth()/2, ofGetHeight()/2);
     }
     
+//    cout << playhead << ", " << playing << ", " << cur << ", " << start << ", " << hasChangedDirection << endl;
 }
 
 //--------------------------------------------------------
 
 void sonicWire::play() {
-    
+    // custom events
     playing = TRUE;
     
     waveSetup(wave, line[playhead]);
     
     if (hasChangedDirection) playhead--;
     else playhead++;
-    
+
+    cout << playhead << ", " << line[playhead] << ", " << line.size() << endl;
+
 }
 
 //--------------------------------------------------------
@@ -179,7 +187,8 @@ void sonicWire::waveSetup(ofSoundPlayer player, ofPoint point){
     wave.setPan(pan(point.x));
     wave.setSpeed(pitch(point.y));
     wave.setVolume(volume(point.x, point.y));
-    
+//    cout << wave.getSpeed() << ", " << point.y << endl;
+
 }
 
 //--------------------------------------------------------

@@ -136,6 +136,7 @@ void ofApp::update(){
     
     if (waitingInput && !monoLineTextInput.getIsEditing()) monoLineTextInput.beginEditing();
     
+    
 }
 
 //--------------------------------------------------------------
@@ -143,8 +144,8 @@ void ofApp::draw(){
     
     // background reacts to total volume
     ofBackground(0);
-    float s = *ofSoundGetSpectrum(32);
-    ofBackgroundGradient(ofColor(100, 100), ofColor(ofMap(s,0.1,1,0,200,true)));
+//    float s = *ofSoundGetSpectrum(32);
+//    ofBackgroundGradient(ofColor(100, 100), ofColor(ofMap(s,0.1,1,0,200,true)));
     
     // draw grid
     ofSetColor(127,127,127);
@@ -218,12 +219,12 @@ void ofApp::keyPressed(int key){
             }
         }
         
-        //    if (key == 's') { // drawing while stopped will cause awkward sound
-        //        if (rotateY) {
-        //            tempY = rotateY;
-        //            rotateY = 0;
-        //        } else rotateY = tempY;
-        //    }
+        if (key == 's') { // drawing while stopped will cause awkward sound
+            if (rotateY) {
+                tempY = rotateY;
+                rotateY = 0;
+            } else rotateY = tempY;
+        }
         
         // x rotation
         if (key == OF_KEY_UP || key == OF_KEY_DOWN) {
